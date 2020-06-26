@@ -1,6 +1,7 @@
 package atownsend.sample;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,12 +81,12 @@ public class TestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
   public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     if (horizontal) {
       return new HorizontalTestViewHolder(
-          LayoutInflater.from(context).inflate(R.layout.view_holder_horizontal_view, parent, false),
-          callbacks);
+              LayoutInflater.from(context).inflate(R.layout.view_holder_horizontal_view, parent, false),
+              callbacks);
     } else {
       return new TestViewHolder(
-          LayoutInflater.from(context).inflate(R.layout.view_holder_view, parent, false),
-          callbacks);
+              LayoutInflater.from(context).inflate(R.layout.view_holder_view, parent, false),
+              callbacks);
     }
   }
 
@@ -152,6 +153,17 @@ public class TestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override public void notifyEndOpen() {
       itemView.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.blue));
     }
+
+    @Override
+    public void notifyEndOnSwiped() {
+      Log.d("TestViewHolder", "notifyEndOnSwiped");
+    }
+
+    @Override
+    public void notifyStartOnSwiped() {
+      Log.d("TestViewHolder", "notifyStartOnSwiped");
+
+    }
   }
 
   static class HorizontalTestViewHolder extends BaseSwipeOpenViewHolder {
@@ -190,6 +202,14 @@ public class TestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override public float getStartHiddenViewSize() {
       return deleteButton.getMeasuredHeight();
+    }
+
+    @Override
+    public void notifyEndOnSwiped() {
+    }
+
+    @Override
+    public void notifyStartOnSwiped() {
     }
   }
 }
